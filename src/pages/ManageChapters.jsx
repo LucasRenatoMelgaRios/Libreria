@@ -168,20 +168,21 @@ const ManageChapters = () => {
   const handleAddChapter = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://677f666e0476123f76a63e21.mockapi.io/chapters', {
+      const response = await axios.post('https://677f666e0476123f76a63e21.mockapi.io/chapters', {
         ...newChapter,
-        libroId: id
+        libroId: id,
       });
+      setChapters([...chapters, response.data]); // Añade el nuevo capítulo al estado existente
       setNewChapter({ titulo: '', contenido: '' });
       setShowForm(false);
-      fetchBookAndChapters();
     } catch (error) {
       console.error('Error creating chapter:', error);
     }
   };
+  
 
   const handleDeleteChapter = async (chapterId) => {
-    if (window.confirm('¿Estás seguro de que quieres eliminar este capítulo?')) {
+    if (window.confirm('¿Are you sure?')) {
       try {
         await axios.delete(`https://677f666e0476123f76a63e21.mockapi.io/chapters/${chapterId}`);
         fetchBookAndChapters();
@@ -214,7 +215,7 @@ const ManageChapters = () => {
               </ChapterLink>
               <div>
                 <DeleteButton onClick={() => handleDeleteChapter(chapter.id)}>
-                  Eliminar
+                  Delete
                 </DeleteButton>
               </div>
             </ChapterItem>
